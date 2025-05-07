@@ -13,32 +13,26 @@ Explanation: [1,1,1,0,0,0] is the longest contiguous subarray with equal number 
 from collections import defaultdict
 
 def findMaxLength(nums):
-    converted_arr = []
-    for _ in nums:
-        if _ == 1:
-            converted_arr.append(1)
-        else: converted_arr.append(-1)
-    print(converted_arr)
+    prefix = defaultdict(int)
+    prefix[0] = -1 # the first index where prefix = 0 is -1 (empty array)
 
-    # find number of sub arrays that sum up  to 0 (meaning that # 0s = # 1s)
-    dic = defaultdict(int)
-    dic[0] = 1 # base case, empty array --> prefix = 0
-    curr = 0
+    currSum = 0 # tracking prefix sum
     k = 0
+    maxlen = 0
+    for i, num in enumerate(nums):
+        if num == 1:
+            currSum += 1
+        else: currSum -= 1
 
-    ans = 0
-    max_len = 0
-    for i, num in enumerate(converted_arr):
-        curr += num
-        if curr-k in dic:
-            ans += dic[curr-k]
-            max_len = max(max_len, i - dic[curr-k])
-        dic[curr] +=1
+        if currSum-k in prefix:
+            maxlen = max(maxlen, i - prefix[currSum-k])
+        else:
+            prefix[currSum-k] = i
 
-    print(ans) # 4 sub arrays that # 0s = # 1s
-    print(max_len)
+    return maxlen
 
 
 
-print(findMaxLength([0,1]))
+
+print(findMaxLength([0,1,1,1,1,1,0,0,0]))
 
