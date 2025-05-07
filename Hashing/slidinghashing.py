@@ -22,4 +22,4 @@ def find_longest_substring(s, k):
     return ans
 
 
-print(find_longest_substring("eceba", 2))
+print(find_longest_substring("aab", 1))
