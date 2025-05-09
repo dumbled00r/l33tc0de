@@ -78,16 +78,22 @@ path is a valid absolute Unix path.
 
 
 def simplifyPath(path: str) -> str:
-    # stack = []
-    # curr = ""
-    # for _ in path:
-    #     if _ == "/":
-    #         if curr == ".." and
-    #     else:
-    #         curr+=_
-    # print(curr)
-    #
-    #
-    # return stack
+    stack = []
+    curr = ""
+    for _ in path:
+        if _ == "/":
+            if curr == "..":
+                if stack:
+                    stack.pop()
+            elif curr == ".":
+                pass
+            elif curr != "":
+                stack.append(curr)
+            curr = ""
+        else:
+            curr+=_
 
-print(simplifyPath("/home/../foo/"))
+
+    return "/"+"/".join(stack)
+
+print(simplifyPath("/../"))
