@@ -39,6 +39,25 @@ class Solution:
 
         return ans
 
+    def betterReachableNodes(self, n: int, edges: List[List[int]], restricted: List[int]) -> int:
+
+        graphneighbor = defaultdict(list)
+        for start, dest in edges:
+            graphneighbor[start].append(dest)
+            graphneighbor[dest].append(start)
+
+        setRestricted = set(restricted)
+        seen = set()
+
+        def dfs(node):
+            seen.add(node)
+            for neighbor in graphneighbor[node]:
+                if neighbor not in seen and neighbor not in setRestricted:
+                    seen.add(neighbor)
+                    dfs(neighbor)
+
+        dfs(0)
+        return len(seen)
 
 
 
@@ -46,4 +65,4 @@ if __name__ == "__main__":
     edges = [[0,1],[1,2],[3,1],[4,0],[0,5],[5,6]]
     restricted = [4,5]
     solution = Solution()
-    print(solution.reachableNodes(7, edges, restricted))
+    print(solution.betterReachableNodes(7, edges, restricted))
